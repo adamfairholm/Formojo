@@ -34,6 +34,8 @@ class Formojo
 		
 		$parsed = $this->addon->simpletags->parse( $this->tag_contents, array(), array($this, 'parse_input') );
 		
+		print_r($this->inputs);
+		
 		return $parsed['content'];
     }
 
@@ -59,7 +61,17 @@ class Formojo
     	endif;
     	
     	// We have a valid type, let's make the input
-    	return $this->addon->form->create_input( $type, $attr );
+    	$input = $this->addon->form->create_input( $type, $attr );
+    	
+    	// Save the inputs for validation
+    	$this->inputs[] = array(
+    		'field'		=> $this->addon->form->name,
+    		'label'		=> $this->addon->form->label,
+    		'rules'		=> $this->addon->form->validation
+    	);
+    	
+    	// Return the input we created
+    	return $input;
     }
 
 }

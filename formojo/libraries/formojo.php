@@ -58,6 +58,12 @@ class Formojo
 		else:
 
 			// -------------------------------------
+			// Set Errors
+			// -------------------------------------
+
+			$this->_set_errors();
+
+			// -------------------------------------
 			// Set Singular Data
 			// -------------------------------------
 
@@ -113,10 +119,42 @@ class Formojo
     	return $input;
     }
 
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Set Errors
+	 *
+	 * Display errors within the form
+	 *
+	 * @access	private
+	 * @return	void
+	 */
+	private function _set_errors()
+	{
+		// -------------------------------------
+		// Run through errors and get 'em
+		// in there
+		// -------------------------------------
+		
+		foreach( $this->inputs as $input ):
+		
+			$this->content = str_replace("{".$input['field']."_error}", form_error( $input['field'] ), $this->content);
+		
+		endforeach;
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Set Singular Data
+	 *
+	 * @access	public
+	 * @return	void
+	 */
 	function _set_singular_data()
 	{
 		// -------------------------------------
-		// Add a submit button/
+		// Add a submit button
 		// -------------------------------------
 		
 		$this->content = str_replace("{submit}", form_submit('submit_button', 'Submit'), $this->content);

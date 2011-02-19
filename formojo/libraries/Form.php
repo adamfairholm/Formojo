@@ -18,13 +18,24 @@ class Form
 	 * @return	string
 	 */	
 	public function create_input( $type, $attributes )
-	{
+	{		
+		$this->type = $type;
+
 		$this->parse_attributes( $attributes );
 		
 		switch( $type )
 		{
 			case 'text':
 				return $this->text_input();
+				break;
+			case 'textarea':
+				return $this->textarea_input();
+				break;
+			case 'password':
+				return $this->password_input();
+				break;
+			case 'checkbox':
+				return $this->checkbox_input();
 				break;
 		
 		}
@@ -109,6 +120,52 @@ class Form
 			endforeach;
 					
 		endif;
+
+		// -------------------------------------
+		// Set Value
+		// -------------------------------------
+		
+		if( $this->type == 'checkbox' || $this->type == 'radio' ):
+
+			// We should have been provided a value
+			if( isset($value) ):
+		
+				$this->value = $value;
+		
+			else:
+			
+				// We really shouldn't try anything without
+				// a value for these.
+				show_error('A checkbox needs a value');
+			
+			endif;
+
+		
+		else:
+
+			// Set the value for regular inputs
+
+			if( $this->mm->input->post($this->name) ):
+			
+				$this->value = $this->mm->input->post($this->name);
+			
+			else:
+			
+				// Were we provided a value?
+			
+				if( isset($value) ):
+			
+					$this->value = $value;
+			
+				else:
+				
+					$this->value = '';
+				
+				endif;
+			
+			endif;
+
+		endif;
 	}
 
 	// --------------------------------------------------------------------------
@@ -124,10 +181,61 @@ class Form
 		$input_config = array(
               'name'        => $this->name,
               'id'          => $this->name,
-              'value'       => ''
+              'value'       => $this->value
             );
 
 		return form_input( $input_config );
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Create a textarea input
+	 *
+	 * @access	public
+	 * @return	string
+	 */	
+	public function textarea_input()
+	{
+		$input_config = array(
+              'name'        => $this->name,
+              'id'          => $this->name,
+              'value'       => $this->value
+            );
+
+		return form_textarea( $input_config );
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Create a password input
+	 *
+	 * @access	public
+	 * @return	string
+	 */	
+	public function password_input()
+	{
+		$input_config = array(
+              'name'        => $this->name,
+              'id'          => $this->name,
+              'value'       => $this->value
+            );
+
+		return form_password( $input_config );
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Create a checkbox input
+	 *
+	 * @access	public
+	 * @return	string
+	 */	
+	public function checkbox_input()
+	{
+		return form_checkbox( $this->name, $this->value );
 	}
 
 }

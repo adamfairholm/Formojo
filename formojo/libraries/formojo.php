@@ -30,13 +30,52 @@ class Formojo
 
     public function form($tag_data)
     {
+		// -------------------------------------
+		// Gather input data from the tags
+		// -------------------------------------
+
 		$this->tag_contents = $tag_data['tag_contents'];
 		
 		$parsed = $this->addon->simpletags->parse( $this->tag_contents, array(), array($this, 'parse_input') );
 		
-		print_r($this->inputs);
+		$this->content = $parsed['content'];
 		
-		return $parsed['content'];
+		// DEBUG
+		//print_r($this->inputs);
+		
+		// -------------------------------------
+		// Set Validation
+		// -------------------------------------
+		
+		$this->addon->load->library('form_validation');
+		
+		$this->addon->form_validation->set_rules( $this->inputs );
+		
+		if( $this->addon->form_validation->run() !== FALSE ):
+			
+			
+		
+		else:
+
+			// -------------------------------------
+			// Set Singular Data
+			// -------------------------------------
+
+			$this->_set_singular_data();
+
+			// -------------------------------------
+			// Wrap in Form tags
+			// -------------------------------------
+			
+			$this->content = form_open( current_url() ) . $this->content . form_close();
+	
+			// -------------------------------------
+			// Return the Content
+			// -------------------------------------
+		
+			return $this->content;
+			
+		endif;
     }
 
 	// --------------------------------------------------------------------------
@@ -73,6 +112,15 @@ class Formojo
     	// Return the input we created
     	return $input;
     }
+
+	function _set_singular_data()
+	{
+		// -------------------------------------
+		// Add a submit button/
+		// -------------------------------------
+		
+		$this->content = str_replace("{submit}", form_submit('submit_button', 'Submit'), $this->content);
+	}
 
 }
 

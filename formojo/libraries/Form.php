@@ -82,6 +82,13 @@ class Form
 		// -------------------------------------
 	
 		$this->validation = "trim";
+
+		// If required, set it.
+		if( $this->required == 'yes' ):
+		
+			$this->validation .= "|required";			
+		
+		endif;
 		
 		// Clean up the validation if they specified it.
 		
@@ -100,7 +107,7 @@ class Form
 				endif;
 			
 			endforeach;
-		
+					
 		endif;
 	}
 

@@ -283,29 +283,41 @@ class Form
 		
 		endif;
 	
+		// To check the post we need to remove the [] if
+		// they indeed do exist
+		$post_name = str_replace('[]', '', $this->name);
+	
 		// Is it checked?
 		
-		if( $this->mm->input->post($this->name) == $tag_data['attributes']['value'] ):
+		$selected = FALSE;
 		
-			$selected = TRUE;
+		if( $this->mm->input->post($post_name) ):
+		
+			// Could be array or no.
+			
+			if( is_array($this->mm->input->post($post_name)) && in_array($tag_data['attributes']['value'], $this->mm->input->post($post_name)) ):
+				
+				$selected = TRUE;
+			
+			elseif( !is_array($this->mm->input->post($post_name)) && $this->mm->input->post($post_name) == $tag_data['attributes']['value'] ):
+			
+				$selected = TRUE;
+			
+			endif;
 		
 		else:
 		
 			if( isset($tag_data['attributes']['selected']) && $tag_data['attributes']['selected'] == 'yes' ):
 			
-				$checked = TRUE;
-			
-			else:
-		
-				$checked = FALSE;
-			
+				$selected = TRUE;
+						
 			endif;
 		
 		endif;
 		
 		if( $this->type == 'checkbox' ):
 	
-			return form_checkbox($this->name, $tag_data['attributes']['value'], $checked);
+			return form_checkbox($this->name, $tag_data['attributes']['value'], $selected);
 		
 		endif;
 	}

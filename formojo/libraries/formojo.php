@@ -185,13 +185,11 @@ class Formojo
 	 */
 	private function _parse_params()
 	{
-		// Use recapatcha? yes/no
+		// Set some param defaults
 		
-		if( !isset($this->params['use_recaptcha']) ):
-		
-			$this->params['use_recaptcha'] = 'no';
-		
-		endif;
+		$this->_param('use_recaptcha', 'no');
+
+		$this->_param('return_url', current_url());
 		
 		// -------------------------------------
 		// Set up ReCaptcha
@@ -222,16 +220,25 @@ class Formojo
 		
 		// Return URL. Set the current URL if empty
 
-		if( !isset($this->params['return_url']) ):
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Set Param
+	 *
+	 * @access	private
+	 * @param	string
+	 * @param	[string]
+	 * @return	void
+	 */
+	private function _param( $param, $default = '' )
+	{
+		if( !isset($this->params[$param]) ):
 		
-			$this->params['return_url'] = current_url();
-		
-		else:
-		
-			$this->params['return_url'] = site_url( $this->params['return_url'] );
+			$this->params[$param] = $default;
 		
 		endif;
-
 	}
 
 }

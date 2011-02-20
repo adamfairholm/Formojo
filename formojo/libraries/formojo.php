@@ -30,6 +30,10 @@ class Formojo
 
     public function form($tag_data)
     {
+    	$this->params = $tag_data['parameters'];
+    	
+    	$this->_parse_params();
+    
 		// -------------------------------------
 		// Gather input data from the tags
 		// -------------------------------------
@@ -54,6 +58,8 @@ class Formojo
 		if( $this->addon->form_validation->run() !== FALSE ):
 			
 			
+			// Return to the right place
+			redirect( $this->params['return_url'] );
 		
 		else:
 
@@ -158,6 +164,38 @@ class Formojo
 		// -------------------------------------
 		
 		$this->content = str_replace("{submit}", form_submit('submit_button', 'Submit'), $this->content);
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Parse params and set defaults
+	 *
+	 * @access	private
+	 * @return	void
+	 */
+	private function _parse_params()
+	{
+		// Use recapatcha? yes/no
+		
+		if( !($this->params['use_recapatcha']) ):
+		
+			$this->params['use_recapatcha'] = 'no';
+		
+		endif;
+		
+		// Return URL. Set the current URL if empty
+
+		if( !($this->params['return_url']) ):
+		
+			$this->params['return_url'] = current_url();
+		
+		else:
+		
+			$this->params['return_url'] = site_url( $this->params['return_url'] );
+		
+		endif;
+
 	}
 
 }

@@ -34,6 +34,9 @@ class Form
 			case 'textarea':
 				return $this->textarea_input();
 				break;
+			case 'hidden':
+				return $this->hidden_input();
+				break;
 			case 'password':
 				return $this->password_input();
 				break;
@@ -235,6 +238,25 @@ class Form
             );
 
 		return form_password( $input_config );
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Create a hidden input
+	 *
+	 * @access	public
+	 * @return	string
+	 */	
+	public function hidden_input()
+	{
+		$input_config = array(
+              'name'        => $this->name,
+              'id'          => $this->name,
+              'value'       => $this->value
+            );
+
+		return form_hidden( $input_config );
 	}
 
 	// --------------------------------------------------------------------------

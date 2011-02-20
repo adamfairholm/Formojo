@@ -57,6 +57,16 @@ class Formojo
 		
 		if( $this->addon->form_validation->run() !== FALSE ):
 			
+			// -------------------------------------
+			// Send Emails
+			// -------------------------------------
+			
+			$this->addon->load->library('email');
+			
+			$this->_send_emails( '1' );
+
+			$this->_send_emails( '2' );
+			
 			// Return to the right place
 			redirect( $this->params['return_url'] );
 		
@@ -190,6 +200,14 @@ class Formojo
 		$this->_param('use_recaptcha', 'no');
 
 		$this->_param('return_url', current_url());
+
+		$this->_param('notify_1');
+
+		$this->_param('notify_1_layout');
+
+		$this->_param('notify_2');
+
+		$this->_param('notify_2_layout');
 		
 		// -------------------------------------
 		// Set up ReCaptcha
@@ -239,6 +257,52 @@ class Formojo
 			$this->params[$param] = $default;
 		
 		endif;
+	}
+
+	// --------------------------------------------------------------------------
+	
+	private function _send_emails( $notify )
+	{
+		// Get the emails. If there are none, get outta here
+		$emails = $this->params['notify_'.$notify];
+		
+		$emails = explode("|", $emails);
+		
+		if( count($emails) == 1 && trim($emails[0]) == '' ):
+			
+			return;
+		
+		endif;
+		
+		// See if there is a template. If not, throw up an error.
+		
+		if( !$this->params["notify_$notify"."_layout"] ):
+		
+			show_error('No layout specified for notify_'.$notify);
+		
+		endif;
+		
+		// Get the template
+		$db_obj = $this->addon->db->limit(1)->where('layout_name', $this->params["notify_$notify"."_layout"])->get('layouts');
+		
+		if( $db_obj->num_rows() == 0 ):
+		
+			show_error('Could not find '.$this->params["notify_$notify"."_layout"].' layout');
+		
+		endif;
+		
+		$layout = $db_obj->row();
+		
+		// Get ready for emailin!
+		$this->addon->email->from('your@example.com', 'Your Name');
+		$this->addon->email->to( $emails ); 
+		$this->addon->email->subject('Email Test');
+		$this->addon->email->message( $layout->layout_content );
+		
+		// Send the emails
+		$this->addon->email->send();
+		
+		$this->addon->email->clear();
 	}
 
 }

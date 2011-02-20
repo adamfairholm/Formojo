@@ -57,7 +57,6 @@ class Formojo
 		
 		if( $this->addon->form_validation->run() !== FALSE ):
 			
-			
 			// Return to the right place
 			redirect( $this->params['return_url'] );
 		
@@ -164,6 +163,16 @@ class Formojo
 		// -------------------------------------
 		
 		$this->content = str_replace("{submit}", form_submit('submit_button', 'Submit'), $this->content);
+		
+		// -------------------------------------
+		// Add Recaptcha (if nedded)
+		// -------------------------------------
+
+		if( $this->params['use_recaptcha'] == 'yes' ):
+
+			$this->content = str_replace("{recaptcha}", $this->addon->recaptcha->get_html(), $this->content);
+		
+		endif;
 	}
 
 	// --------------------------------------------------------------------------
@@ -178,9 +187,36 @@ class Formojo
 	{
 		// Use recapatcha? yes/no
 		
-		if( !isset($this->params['use_recapatcha']) ):
+		if( !isset($this->params['use_recaptcha']) ):
 		
-			$this->params['use_recapatcha'] = 'no';
+			$this->params['use_recaptcha'] = 'no';
+		
+		endif;
+		
+		// -------------------------------------
+		// Set up ReCaptcha
+		// -------------------------------------
+		
+		if( $this->params['use_recaptcha'] == 'yes' ):
+		
+			if( !isset($this->params['public_key']) || isset($this->params['private_key']) ):
+			
+				// Show missing keys error.
+			
+			endif;
+
+		    $this->addon->config->load('recaptcha');
+			
+			$this->addon->load->library('recaptcha');
+			
+			$this->inputs[] = array(
+				      'field' => 'recaptcha_response_field',
+				      'label' => 'lang:recaptcha_field_name',
+				      'rules' => 'required|callback_check_captcha'
+    		);
+    		
+    		$this->addon->config->set_item('public', $this->params['public_key']);
+    		$this->addon->config->set_item('private', $this->params['private_key']);
 		
 		endif;
 		

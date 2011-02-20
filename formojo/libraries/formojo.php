@@ -9,7 +9,7 @@ class Formojo
     // Array of inputs we're dealing with
     private $inputs = array();
     
-    private $input_types = array('text', 'textarea', 'select', 'radio', 'password', 'hidden');
+    private $input_types = array('text', 'textarea', 'select', 'radio', 'password', 'hidden', 'checkbox');
 
 	// --------------------------------------------------------------------------
 
@@ -106,7 +106,7 @@ class Formojo
     	endif;
     	
     	// We have a valid type, let's make the input
-    	$input = $this->addon->form->create_input( $type, $attr );
+    	$input = $this->addon->form->create_input( $type, $attr, $tag_data['content'] );
     	
     	// Save the inputs for validation
     	$this->inputs[] = array(

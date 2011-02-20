@@ -15,11 +15,14 @@ class Form
 	 * @access	public
 	 * @param	string
 	 * @param	array
+	 * @param	content
 	 * @return	string
 	 */	
-	public function create_input( $type, $attributes )
+	public function create_input( $type, $attributes, $content )
 	{		
 		$this->type = $type;
+
+		$content = trim($content);
 
 		$this->parse_attributes( $attributes );
 		
@@ -35,7 +38,7 @@ class Form
 				return $this->password_input();
 				break;
 			case 'checkbox':
-				return $this->checkbox_input();
+				return $this->checkbox_input( $content );
 				break;
 		
 		}
@@ -71,7 +74,15 @@ class Form
 		// Set Name
 		// -------------------------------------
 	
-		$this->name		= $name;
+		if( isset($name) ):
+
+			$this->name		= $name;
+		
+		else:
+
+			$this->name		= '';
+		
+		endif;		
 
 		// -------------------------------------
 		// Set Label
@@ -136,8 +147,9 @@ class Form
 			
 				// We really shouldn't try anything without
 				// a value for these.
-				show_error('A checkbox needs a value');
-			
+				//show_error('A checkbox needs a value');
+				$this->value = '';
+				
 			endif;
 
 		
@@ -233,9 +245,69 @@ class Form
 	 * @access	public
 	 * @return	string
 	 */	
-	public function checkbox_input()
+	public function checkbox_input( $content )
 	{
-		return form_checkbox( $this->name, $this->value );
+		// No options? Nothing to see here
+		if( ! $content ):
+			
+			return;
+		
+		endif;
+
+		// We are hijacking the trigger for a sec
+		$this->mm->simpletags->set_trigger('option');
+	
+		$parsed = $this->mm->simpletags->parse( $content, array(), array($this, 'parse_options') );
+
+		// Back to normal
+		$this->mm->simpletags->set_trigger('input:');
+
+		return $parsed['content'];
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Parse checkbox, radio, and select options
+	 *
+	 * @access	public
+	 * @param	array
+	 * @return	string
+	 */
+	public function parse_options( $tag_data )
+	{
+		// We need a value
+		if( !isset($tag_data['attributes']['value']) ):
+		
+			show_error("Missing a $this->type value.");
+		
+		endif;
+	
+		// Is it checked?
+		
+		if( $this->mm->input->post($this->name) == $tag_data['attributes']['value'] ):
+		
+			$selected = TRUE;
+		
+		else:
+		
+			if( isset($tag_data['attributes']['selected']) && $tag_data['attributes']['selected'] == 'yes' ):
+			
+				$checked = TRUE;
+			
+			else:
+		
+				$checked = FALSE;
+			
+			endif;
+		
+		endif;
+		
+		if( $this->type == 'checkbox' ):
+	
+			return form_checkbox($this->name, $tag_data['attributes']['value'], $checked);
+		
+		endif;
 	}
 
 }

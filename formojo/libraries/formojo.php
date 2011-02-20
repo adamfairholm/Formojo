@@ -178,7 +178,7 @@ class Formojo
 	{
 		// Use recapatcha? yes/no
 		
-		if( !($this->params['use_recapatcha']) ):
+		if( !isset($this->params['use_recapatcha']) ):
 		
 			$this->params['use_recapatcha'] = 'no';
 		
@@ -186,7 +186,7 @@ class Formojo
 		
 		// Return URL. Set the current URL if empty
 
-		if( !($this->params['return_url']) ):
+		if( !isset($this->params['return_url']) ):
 		
 			$this->params['return_url'] = current_url();
 		

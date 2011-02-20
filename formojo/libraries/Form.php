@@ -46,6 +46,9 @@ class Form
 			case 'dropdown':
 				return $this->_parse_multiple_input( $content );
 				break;
+			case 'radio':
+				return $this->_parse_multiple_input( $content );
+				break;
 		}
 	}
 
@@ -349,7 +352,7 @@ class Form
 		
 		if( $this->type == 'checkbox' ):
 	
-			return form_checkbox($this->name, $tag_data['attributes']['value'], $selected);
+			return form_checkbox( $this->name, $tag_data['attributes']['value'], $selected );
 			
 		elseif( $this->type == 'dropdown' ):
 		
@@ -362,6 +365,10 @@ class Form
 			endif;
 		
 			return '<option value="'.$tag_data['attributes']['value'].'"'.$selected_code.'>'.$tag_data['attributes']['value'].'</option>'."\n";
+		
+		elseif( $this->type == 'radio' ):
+		
+			return form_radio( $this->name, $tag_data['attributes']['value'], $selected );
 		
 		endif;
 	}

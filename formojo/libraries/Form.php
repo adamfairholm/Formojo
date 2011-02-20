@@ -41,9 +41,11 @@ class Form
 				return $this->password_input();
 				break;
 			case 'checkbox':
-				return $this->checkbox_input( $content );
+				return $this->_parse_multiple_input( $content );
 				break;
-		
+			case 'dropdown':
+				return $this->_parse_multiple_input( $content );
+				break;
 		}
 	}
 
@@ -262,12 +264,13 @@ class Form
 	// --------------------------------------------------------------------------
 
 	/**
-	 * Create a checkbox input
+	 * Parse multiple inputs for dropdown/checkbox/radio
 	 *
-	 * @access	public
+	 * @access	private
+	 * @param	string
 	 * @return	string
 	 */	
-	public function checkbox_input( $content )
+	function _parse_multiple_input( $content )
 	{
 		// No options? Nothing to see here
 		if( ! $content ):
@@ -283,6 +286,13 @@ class Form
 
 		// Back to normal
 		$this->mm->simpletags->set_trigger('input:');
+		
+		// Wrap <select> stuff
+		if( $this->type == 'dropdown' ):
+		
+			$parsed['content'] = '<select name="'.$this->name.'">'.$parsed['content'].'</select>';
+		
+		endif;
 
 		return $parsed['content'];
 	}
@@ -340,6 +350,18 @@ class Form
 		if( $this->type == 'checkbox' ):
 	
 			return form_checkbox($this->name, $tag_data['attributes']['value'], $selected);
+			
+		elseif( $this->type == 'dropdown' ):
+		
+			$selected_code = '';
+			
+			if( $selected ):
+			
+				$selected_code = ' selected="yes"';
+			
+			endif;
+		
+			return '<option value="'.$tag_data['attributes']['value'].'"'.$selected_code.'>'.$tag_data['attributes']['value'].'</option>'."\n";
 		
 		endif;
 	}

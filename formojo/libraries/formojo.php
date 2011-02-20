@@ -9,7 +9,7 @@ class Formojo
     // Array of inputs we're dealing with
     private $inputs = array();
     
-    private $input_types = array('text', 'textarea', 'select', 'radio', 'password', 'hidden', 'checkbox');
+    private $input_types = array('text', 'textarea', 'dropdown', 'radio', 'password', 'hidden', 'checkbox');
 
 	// --------------------------------------------------------------------------
 

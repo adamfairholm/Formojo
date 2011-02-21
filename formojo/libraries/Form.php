@@ -21,7 +21,7 @@ class Form
 	public function create_input( $type, $attributes, $content )
 	{		
 		$this->type = $type;
-
+		
 		$content = trim($content);
 
 		$this->parse_attributes( $attributes );
@@ -50,6 +50,14 @@ class Form
 				return $this->_parse_multiple_input( $content );
 				break;
 		}
+
+		// Wait, is this a custom input type?
+		if( is_object($this->mm->type->types->$type) && method_exists($this->mm->type->types->$type, 'form_output') ):
+			
+			// It is. Return the form_output function
+			return $this->mm->type->types->$type->form_output( $this->name, $this->value );
+		
+		endif;
 	}
 
 	// --------------------------------------------------------------------------
@@ -62,6 +70,18 @@ class Form
 	 */	
 	public function parse_attributes( $attributes )
 	{
+		// -------------------------------------
+		// See if this is a custom type
+		// -------------------------------------
+		
+		$type = $this->type;
+
+		isset($this->mm->type->types->$type) ? $is_custom = TRUE : $is_custom = FALSE;
+
+		// -------------------------------------
+		// Extract Attributes for Convenience
+		// -------------------------------------
+
 		extract($attributes, EXTR_OVERWRITE);
 		
 		// -------------------------------------
@@ -95,11 +115,24 @@ class Form
 		// -------------------------------------
 		// Set Label
 		// -------------------------------------
+		// Checks to see if a lable has been
+		// given. Finds the next best thing if
+		// it hasn't.
+		// -------------------------------------
 	
 		if( !isset($label) ):
 		
-			// Try to make a label if there isn't one
-			$this->label = ucwords($this->name);
+			if( $is_custom && isset($this->mm->type->types->$type->label) ):
+				
+				// Use the label from the type as a fallback.
+				$this->label = $this->mm->type->types->$type->label;
+			
+			else:
+			
+				// Last ditch. Try to make a label if there isn't one
+				$this->label = ucwords($this->name);
+			
+			endif;
 		
 		else:
 	

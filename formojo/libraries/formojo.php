@@ -9,7 +9,7 @@ class Formojo
     // Array of inputs we're dealing with
     private $inputs = array();
     
-    private $input_types = array('text', 'textarea', 'dropdown', 'radio', 'password', 'hidden', 'checkbox');
+    private $core_input_types = array('text', 'textarea', 'dropdown', 'radio', 'password', 'hidden', 'checkbox');
 
 	// --------------------------------------------------------------------------
 
@@ -22,8 +22,20 @@ class Formojo
 		$this->addon->load->library('form');
 		
 		$this->addon->load->helper('form');
+
+		// -------------------------------------
+		// We are looking for input: items
+		// -------------------------------------
 		
 		$this->addon->simpletags->set_trigger('input:');
+
+		// -------------------------------------
+		// Get our extra input types
+		// -------------------------------------
+
+		$this->addon->load->library('type');
+		
+		$this->addon->type->gather_types();
     }
 
 	// --------------------------------------------------------------------------
@@ -114,7 +126,7 @@ class Formojo
     	$type = $tag_data['full_segments'];
     	
     	// Make sure that the type is valid
-    	if( !in_array($type, $this->input_types) ):
+    	if( !in_array($type, $this->core_input_types) && !isset($this->addon->type->types->$type) ):
     	
     		return "Invalid Type";
     	

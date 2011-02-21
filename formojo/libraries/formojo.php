@@ -73,6 +73,8 @@ class Formojo
 			// Send Emails
 			// -------------------------------------
 			
+			$this->addon->load->library('parser');
+			
 			$this->addon->load->library('email');
 			
 			$this->_send_emails( '1' );
@@ -213,13 +215,21 @@ class Formojo
 
 		$this->_param('return_url', current_url());
 
-		$this->_param('notify_1');
+		$this->_param('notify1');
 
-		$this->_param('notify_1_layout');
+		$this->_param('notify1_layout');
 
-		$this->_param('notify_2');
+		$this->_param('notify1_subject', $this->addon->site_model->get_setting('site_name') . ' Form Submission');
 
-		$this->_param('notify_2_layout');
+		$this->_param('notify1_from');
+
+		$this->_param('notify2');
+
+		$this->_param('notify2_layout');
+
+		$this->_param('notify2_subject', $this->addon->site_model->get_setting('site_name') . ' Form Submission');
+
+		$this->_param('notify2_from');
 		
 		// -------------------------------------
 		// Set up ReCaptcha
@@ -247,9 +257,6 @@ class Formojo
     		$this->addon->config->set_item('private', $this->params['private_key']);
 		
 		endif;
-		
-		// Return URL. Set the current URL if empty
-
 	}
 
 	// --------------------------------------------------------------------------
@@ -276,7 +283,7 @@ class Formojo
 	private function _send_emails( $notify )
 	{
 		// Get the emails. If there are none, get outta here
-		$emails = $this->params['notify_'.$notify];
+		$emails = $this->params['notify'.$notify];
 		
 		$emails = explode("|", $emails);
 		
@@ -288,33 +295,56 @@ class Formojo
 		
 		// See if there is a template. If not, throw up an error.
 		
-		if( !$this->params["notify_$notify"."_layout"] ):
+		if( !$this->params["notify$notify"."_layout"] ):
 		
-			show_error('No layout specified for notify_'.$notify);
+			show_error('No layout specified for notify'.$notify);
 		
 		endif;
 		
 		// Get the template
-		$db_obj = $this->addon->db->limit(1)->where('layout_name', $this->params["notify_$notify"."_layout"])->get('layouts');
+		$db_obj = $this->addon->db->limit(1)->where('layout_name', $this->params["notify$notify"."_layout"])->get('layouts');
 		
 		if( $db_obj->num_rows() == 0 ):
 		
-			show_error('Could not find '.$this->params["notify_$notify"."_layout"].' layout');
+			show_error('Could not find '.$this->params["notify$notify"."_layout"].' layout');
 		
 		endif;
 		
 		$layout = $db_obj->row();
 		
+		// Get the post content and put it into the layout.
+		$layout->layout_content = $this->addon->parser->parse_string($layout->layout_content, $_POST, TRUE);
+		
 		// Get ready for emailin!
-		$this->addon->email->from('your@example.com', 'Your Name');
+		if( $this->params["notify$notify"."_from"] != '' ):
+		
+			$email_pieces = explode("|", $this->params["notify$notify"."_from"]);
+			
+			if( isset($email_pieces[1]) ):
+		
+				$this->addon->email->from( $email_pieces[0], $email_pieces[1] );
+			
+			else:
+			
+				$this->addon->email->from( $email_pieces[0] );
+			
+			endif;
+			
+		endif;
+		
 		$this->addon->email->to( $emails ); 
-		$this->addon->email->subject('Email Test');
+		$this->addon->email->subject( $this->params["notify$notify"."_subject"] );
 		$this->addon->email->message( $layout->layout_content );
 		
 		// Send the emails
 		$this->addon->email->send();
+
+		// DEBUG
+		//$update_data['debug_code'] = $this->addon->email->print_debugger();
+		//$this->addon->db->insert('emails', $update_data);
 		
-		$this->addon->email->clear();
+		// Clear for next
+		$this->addon->email->clear();		
 	}
 
 }

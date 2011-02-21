@@ -21,7 +21,7 @@ class Formojo
 		
 		$this->addon->load->library('form');
 		
-		$this->addon->load->helper('form');
+		$this->addon->load->helper( array('form', 'HTML5') );
 
 		// -------------------------------------
 		// We are looking for input: items

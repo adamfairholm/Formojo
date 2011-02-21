@@ -144,12 +144,12 @@ class Form
 		// Set Validation
 		// -------------------------------------
 	
-		$this->validation = "trim";
+		$this->validation_array = array("trim");
 
 		// If required, set it.
 		if( $this->required == 'yes' ):
 		
-			$this->validation .= "|required";			
+			$this->validation_array[] = "required";			
 		
 		endif;
 		
@@ -163,15 +163,38 @@ class Form
 			
 				$valid = trim($valid);
 			
-				if( $valid != '' && $valid != 'trim' && $valid != 'required' ):
+				if( $valid != '' ):
 			
-					$this->validation .= "|".$valid;
+					$this->validation_array[] = $valid;
 			
 				endif;
 			
 			endforeach;
 					
 		endif;
+
+		// See if there are any custom ones for a type
+		
+		if( $is_custom && isset($this->mm->type->types->$type->validation) ):
+		
+			$custom_validation = explode("|", $this->mm->type->types->$type->validation);
+		
+			foreach( $custom_validation as $custom_valid ):
+			
+				$custom_valid = trim($custom_valid);
+			
+				if( $custom_valid != '' ):
+			
+					$this->validation_array[] = $custom_valid;
+			
+				endif;
+			
+			endforeach;
+					
+		endif;
+
+		// Create a validation string
+		$this->validation = implode("|", $this->validation_array);
 
 		// -------------------------------------
 		// Set Value

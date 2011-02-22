@@ -1,4 +1,4 @@
-<?
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /*
 The reCaptcha server keys and API locations
 

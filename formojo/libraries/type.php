@@ -89,5 +89,4 @@ class Type
 
 }
 
-/* End of file Type.php */
-/* Location: /streams/libraries/Type.php */
+/* End of file type.php */

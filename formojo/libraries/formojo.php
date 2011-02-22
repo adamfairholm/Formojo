@@ -22,6 +22,14 @@ class Formojo
 
 	// --------------------------------------------------------------------------
 
+	/**
+	 * Formojo Constructor
+	 *
+	 * Load libraries and set config items
+	 *
+	 * @access	public
+	 * @return	void
+	 */
     public function __construct()
     {
         $this->addon =& get_instance();
@@ -49,10 +57,21 @@ class Formojo
 
 	// --------------------------------------------------------------------------
 
+	/**
+	 * Formojo Form Tag Function
+	 *
+	 * Takes tag parameters and creates form from the
+	 * tag contents
+	 *
+	 * @access	public
+	 * @param	array
+	 * @retuen	string
+	 */
     public function form($tag_data)
     {
     	$this->params = $tag_data['parameters'];
     	
+    	// Parse the params so we can use 'em
     	$this->_parse_params();
     
 		// -------------------------------------
@@ -64,9 +83,6 @@ class Formojo
 		$parsed = $this->addon->simpletags->parse( $this->tag_contents, array(), array($this, 'parse_input') );
 		
 		$this->content = $parsed['content'];
-		
-		// DEBUG
-		//print_r($this->inputs);
 		
 		// -------------------------------------
 		// Set Validation
@@ -186,6 +202,8 @@ class Formojo
 	/**
 	 * Set Singular Data
 	 *
+	 * Replaces specific {tags} with their data
+	 *
 	 * @access	public
 	 * @return	void
 	 */
@@ -250,6 +268,7 @@ class Formojo
 		
 			if( !isset($this->params['public_key']) || isset($this->params['private_key']) ):
 			
+				// TODO
 				// Show missing keys error.
 			
 			endif;
@@ -273,7 +292,7 @@ class Formojo
 	// --------------------------------------------------------------------------
 
 	/**
-	 * Set Param
+	 * Set Param with a default value
 	 *
 	 * @access	private
 	 * @param	string
@@ -291,9 +310,21 @@ class Formojo
 
 	// --------------------------------------------------------------------------
 	
+	/**
+	 * Send Emails
+	 *
+	 * Sends emails for a notify group
+	 *
+	 * @access	private
+	 * @param	string
+	 * @return	void
+	 */
 	private function _send_emails( $notify )
 	{
-		// Get the emails. If there are none, get outta here
+		// -------------------------------------
+		// Get e-mails. Exit if there are none
+		// -------------------------------------
+
 		$emails = $this->params['notify'.$notify];
 		
 		$emails = explode("|", $emails);
@@ -304,15 +335,16 @@ class Formojo
 		
 		endif;
 		
-		// See if there is a template. If not, throw up an error.
+		// -------------------------------------
+		// Parse Email Layout
+		// -------------------------------------
 		
 		if( !$this->params["notify$notify"."_layout"] ):
 		
 			show_error('No layout specified for notify'.$notify);
 		
 		endif;
-		
-		// Get the template
+
 		$db_obj = $this->addon->db->limit(1)->where('layout_name', $this->params["notify$notify"."_layout"])->get('layouts');
 		
 		if( $db_obj->num_rows() == 0 ):
@@ -323,10 +355,12 @@ class Formojo
 		
 		$layout = $db_obj->row();
 		
-		// Get the post content and put it into the layout.
 		$layout->layout_content = $this->addon->parser->parse_string($layout->layout_content, $_POST, TRUE);
 		
-		// Get ready for emailin!
+		// -------------------------------------
+		// Set From
+		// -------------------------------------
+
 		if( $this->params["notify$notify"."_from"] != '' ):
 		
 			$email_pieces = explode("|", $this->params["notify$notify"."_from"]);
@@ -342,19 +376,21 @@ class Formojo
 			endif;
 			
 		endif;
+
+		// -------------------------------------
+		// Set Data
+		// -------------------------------------
 		
 		$this->addon->email->to( $emails ); 
 		$this->addon->email->subject( $this->params["notify$notify"."_subject"] );
 		$this->addon->email->message( $layout->layout_content );
 		
-		// Send the emails
-		$this->addon->email->send();
+		// -------------------------------------
+		// Send & Clear
+		// -------------------------------------
 
-		// DEBUG
-		//$update_data['debug_code'] = $this->addon->email->print_debugger();
-		//$this->addon->db->insert('emails', $update_data);
+		$this->addon->email->send();
 		
-		// Clear for next
 		$this->addon->email->clear();		
 	}
 

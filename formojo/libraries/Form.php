@@ -17,7 +17,7 @@ class Form
 	// --------------------------------------------------------------------------
 
 	/**
-	 * Create an inputå 
+	 * Create an input
 	 *
 	 * @access	public
 	 * @param	string
@@ -438,4 +438,4 @@ class Form
 
 }
 
-/* End file Form.php */
+/* End file form.php */

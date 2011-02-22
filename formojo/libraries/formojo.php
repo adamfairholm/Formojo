@@ -1,5 +1,14 @@
-<?php
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Formojo
+ *
+ * Serious Forms for MojoMotor
+ *
+ * @package		Formojo
+ * @author		Addict Add-ons Dev Team
+ * @copyright	Copyright (c) 2011, Addict Add-ons
+ */
 class Formojo
 {
     public $addon_version = '1.0';
@@ -210,6 +219,8 @@ class Formojo
 	private function _parse_params()
 	{
 		// Set some param defaults
+
+		$this->_param('form_class', 'site_form');
 		
 		$this->_param('use_recaptcha', 'no');
 

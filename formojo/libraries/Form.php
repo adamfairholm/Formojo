@@ -1,5 +1,12 @@
-<?php
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Form Library
+ *
+ * @package		Formojo
+ * @author		Addict Add-ons Dev Team
+ * @copyright	Copyright (c) 2011, Addict Add-ons
+ */
 class Form
 {
 	function __construct()

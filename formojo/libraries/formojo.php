@@ -240,6 +240,10 @@ class Formojo
 	{
 		// Set some param defaults
 
+		$this->_param('pre_error', '<span class="error">');
+
+		$this->_param('post_error', '</span>');
+
 		$this->_param('form_class', 'site_form');
 		
 		$this->_param('use_recaptcha', 'no');
@@ -261,6 +265,12 @@ class Formojo
 		$this->_param('notify2_subject', $this->addon->site_model->get_setting('site_name') . ' Form Submission');
 
 		$this->_param('notify2_from');
+		
+		// -------------------------------------
+		// Set error delimiters
+		// -------------------------------------
+		
+		$this->addon->form_validation->set_error_delimiters($this->params['pre_error'], $this->params['post_error']);
 		
 		// -------------------------------------
 		// Set up ReCaptcha

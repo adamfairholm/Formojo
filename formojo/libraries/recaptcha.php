@@ -153,7 +153,16 @@ class Recaptcha
       'errorpart' => $errorpart
     );
     //load a view - more configurable than embedding HTML in the library
+    
+    // The rest of this function has been modified to work with MojoMotor/Formojo
+    
+    $orig_view_path = $this->_CI->load->_ci_view_path;
+
+	$this->_CI->load->_ci_view_path = APPPATH.'third_party/formojo/views/';
+    
     return $this->_CI->load->view('recaptcha',$html_data,TRUE); 
+    
+    $this->_CI->load->_ci_view_path = $orig_view_path;
   }
   
   /**

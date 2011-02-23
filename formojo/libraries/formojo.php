@@ -279,14 +279,14 @@ class Formojo
 			
 			$this->addon->load->library('recaptcha');
 			
+			$this->addon->recaptcha->_rConfig['public'] 	= $this->params['public_key'];
+			$this->addon->recaptcha->_rConfig['private']	 = $this->params['private_key'];
+			
 			$this->inputs[] = array(
 				      'field' => 'recaptcha_response_field',
 				      'label' => 'lang:recaptcha_field_name',
 				      'rules' => 'required|callback_check_captcha'
     		);
-    		
-    		$this->addon->config->set_item('public', $this->params['public_key']);
-    		$this->addon->config->set_item('private', $this->params['private_key']);
 		
 		endif;
 	}

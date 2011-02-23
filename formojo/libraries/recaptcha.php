@@ -40,6 +40,15 @@
 * @category    Captcha
 * @author      Jon Trelfa <jtrelfa@gmail.com>
 */
+
+/**
+* Recaptcha modified to work with Formojo for MojoMotor
+*
+* @package     Formojo
+* @subpackage  Add-ons
+* @author      Addict Add-ons <addict@addictaddons.com>
+*/
+
 class Recaptcha 
 {
   

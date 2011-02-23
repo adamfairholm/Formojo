@@ -265,22 +265,19 @@ class Formojo
 		// -------------------------------------
 		// Set up ReCaptcha
 		// -------------------------------------
+
+		$this->_param('theme', 'red');
 		
 		if( $this->params['use_recaptcha'] == 'yes' ):
 		
-			if( !isset($this->params['public_key']) || isset($this->params['private_key']) ):
-			
-				// TODO
-				// Show missing keys error.
-			
-			endif;
-
 		    $this->addon->config->load('recaptcha');
 			
 			$this->addon->load->library('recaptcha');
 			
+			// Set some configs
 			$this->addon->recaptcha->_rConfig['public'] 	= $this->params['public_key'];
-			$this->addon->recaptcha->_rConfig['private']	 = $this->params['private_key'];
+			$this->addon->recaptcha->_rConfig['private']	= $this->params['private_key'];
+			$this->addon->recaptcha->_rConfig['theme']		= $this->params['theme'];
 			
 			$this->inputs[] = array(
 				      'field' => 'recaptcha_response_field',

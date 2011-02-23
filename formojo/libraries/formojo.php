@@ -11,7 +11,7 @@
  */
 class Formojo
 {
-    public $addon_version = '1.0';
+    public $addon_version = '0.8';
     
     private $addon;
     
@@ -91,6 +91,12 @@ class Formojo
 		$this->addon->load->library('form_validation');
 		
 		$this->addon->form_validation->set_rules( $this->inputs );
+
+		// -------------------------------------
+		// Set error delimiters
+		// -------------------------------------
+		
+		$this->addon->form_validation->set_error_delimiters($this->params['pre_error'], $this->params['post_error']);
 		
 		if( $this->addon->form_validation->run() !== FALSE ):
 			
@@ -265,13 +271,7 @@ class Formojo
 		$this->_param('notify2_subject', $this->addon->site_model->get_setting('site_name') . ' Form Submission');
 
 		$this->_param('notify2_from');
-		
-		// -------------------------------------
-		// Set error delimiters
-		// -------------------------------------
-		
-		$this->addon->form_validation->set_error_delimiters($this->params['pre_error'], $this->params['post_error']);
-		
+				
 		// -------------------------------------
 		// Set up ReCaptcha
 		// -------------------------------------

@@ -18,7 +18,7 @@ class Formojo
     // Array of inputs we're dealing with
     private $inputs = array();
     
-    private $core_input_types = array('text', 'textarea', 'dropdown', 'radio', 'password', 'hidden', 'checkbox');
+    private $core_input_types = array('text', 'textarea', 'dropdown', 'radio', 'password', 'hidden', 'checkbox', 'yesno_check');
 
 	// --------------------------------------------------------------------------
 
@@ -127,7 +127,9 @@ class Formojo
 			// Wrap in Form tags
 			// -------------------------------------
 			
-			$this->content = form_open( current_url() ) . $this->content . form_close();
+			$hidden = array('formojo_form_submitted' => 'yes');
+			
+			$this->content = form_open( current_url(), '', $hidden ) . $this->content . '</form>';
 	
 			// -------------------------------------
 			// Return the Content

@@ -47,6 +47,9 @@ class Form
 			case 'password':
 				return $this->password_input();
 				break;
+			case 'yesno_check':
+				return $this->yesno_check_input();
+				break;
 			case 'checkbox':
 				return $this->_parse_multiple_input( $content );
 				break;
@@ -325,6 +328,36 @@ class Form
             );
 
 		return form_hidden( $input_config );
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Create a single checkbox input
+	 *
+	 * @access	public
+	 * @return	string
+	 */	
+	public function yesno_check_input()
+	{
+		$selected = FALSE;
+		
+		// The value is set to 'yes' by default and there
+		// is nothing submitted via the form.
+		if( $this->value == 'yes' && $this->mm->input->post('formojo_form_submitted') != 'yes' ):
+		
+			echo 'one';
+			$selected = TRUE;
+			
+		// The form has been submitted and the value is 'yes'
+		elseif( $this->mm->input->post('formojo_form_submitted') == 'yes' && $this->mm->input->post($this->name) == 'yes' ):
+		
+			echo 'two';
+			$selected = TRUE;
+		
+		endif;
+	
+		return form_checkbox( $this->name, 'yes', $selected );
 	}
 
 	// --------------------------------------------------------------------------

@@ -280,7 +280,7 @@ class Formojo
 			$this->addon->recaptcha->_rConfig['theme']		= $this->params['theme'];
 			
 			$this->inputs[] = array(
-				      'field' => 'recaptcha_response_field',
+				      'field' => 'recaptcha',
 				      'label' => 'lang:recaptcha_field_name',
 				      'rules' => 'required|callback_check_captcha'
     		);

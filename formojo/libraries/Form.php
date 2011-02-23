@@ -346,13 +346,11 @@ class Form
 		// is nothing submitted via the form.
 		if( $this->value == 'yes' && $this->mm->input->post('formojo_form_submitted') != 'yes' ):
 		
-			echo 'one';
 			$selected = TRUE;
 			
 		// The form has been submitted and the value is 'yes'
 		elseif( $this->mm->input->post('formojo_form_submitted') == 'yes' && $this->mm->input->post($this->name) == 'yes' ):
 		
-			echo 'two';
 			$selected = TRUE;
 		
 		endif;

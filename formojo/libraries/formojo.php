@@ -53,6 +53,12 @@ class Formojo
 		$this->addon->load->library('type');
 		
 		$this->addon->type->gather_types();
+
+		// -------------------------------------
+		// Make sure we have our email log table
+		// -------------------------------------
+		
+		$this->_check_log_table();
     }
 
 	// --------------------------------------------------------------------------
@@ -404,6 +410,39 @@ class Formojo
 		$this->addon->email->send();
 		
 		$this->addon->email->clear();		
+	}
+	
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Check for the Log Table
+	 *
+	 * Checks for our log table and creates it if it
+	 * doesn't exist.
+	 *
+	 * @access	private
+	 * @return	void
+	 */
+	private function _check_log_table()
+	{
+		if(!$this->addon->db->table_exists('formojo_email_log')):
+		
+			$this->addon->load->dbforge();
+
+			$this->addon->dbforge->add_field('id');	
+			
+			$structure = array(
+				'created'			=> array('type' => 'DATETIME'),
+				'subject'			=> array('type' => 'VARCHAR', 'constraint' => '200'),
+				'to'				=> array('type' => 'VARCHAR', 'constraint' => '200'),
+				'debug_code'		=> array('type' => 'LONGTEXT')
+			);		
+			
+			$this->addon->dbforge->add_field($structure);
+						
+			$this->addon->dbforge->create_table('formojo_email_log');
+			
+		endif;
 	}
 
 }

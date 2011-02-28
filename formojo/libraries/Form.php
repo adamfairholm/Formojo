@@ -98,7 +98,7 @@ class Form
 		// Set Required
 		// -------------------------------------
 		
-		if( !isset($required) ):
+		if(!isset($required)):
 		
 			$this->required = "no";
 			
@@ -112,7 +112,7 @@ class Form
 		// Set Name
 		// -------------------------------------
 	
-		if( isset($name) ):
+		if(isset($name)):
 
 			$this->name		= $name;
 		
@@ -130,7 +130,7 @@ class Form
 		// it hasn't.
 		// -------------------------------------
 	
-		if( !isset($label) ):
+		if(!isset($label)):
 		
 			if( $is_custom && isset($this->mm->type->types->$type->label) ):
 				
@@ -139,19 +139,23 @@ class Form
 			
 			else:
 			
-				// Last ditch. Try to make a label if there isn't one
-				$this->label = ucwords($this->name);
+				// Last ditch. Try to make a label if there isn't one.
+				// Remove [] since they look like shit.
+				$this->label = ucwords(str_replace('[]', '', $this->name));
 			
 			endif;
 		
 		else:
 	
-			$this->label	= $label;
+			$this->label = $label;
 
 		endif;
 
 		// -------------------------------------
 		// Set Validation
+		// -------------------------------------
+		// Uses an array to be able to clean out
+		// the dupes.
 		// -------------------------------------
 	
 		$this->validation_array = array("trim");
@@ -205,6 +209,9 @@ class Form
 
 		// Create a validation string
 		$this->validation = implode("|", $this->validation_array);
+		
+		// Reset the validation array
+		$this->validation_array = array();
 
 		// -------------------------------------
 		// Set Value
@@ -225,7 +232,6 @@ class Form
 				$this->value = '';
 				
 			endif;
-
 		
 		else:
 

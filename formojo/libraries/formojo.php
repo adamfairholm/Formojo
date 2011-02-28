@@ -200,7 +200,10 @@ class Formojo
 		
 		foreach( $this->inputs as $input ):
 		
-			$this->content = str_replace("{".$input['field']."_error}", form_error( $input['field'] ), $this->content);
+			// Remove []
+			$field_slug = str_replace('[]', '', $input['field']);
+		
+			$this->content = str_replace("{".$field_slug."_error}", form_error( $input['field'] ), $this->content);
 		
 		endforeach;
 	}

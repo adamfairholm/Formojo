@@ -404,21 +404,39 @@ class Formojo
 		$this->addon->email->message( $layout->layout_content );
 		
 		// -------------------------------------
-		// Send & Clear
+		// Send, Log & Clear
 		// -------------------------------------
 
 		$this->addon->email->send();
+
+		$log_data = array(
+			'created' 	=> date('Y-m-d H:i:s'),
+			'subject'	=> $this->params["notify$notify"."_subject"],
+			'debug'		=> $this->addon->email->print_debugger()
+		);
+
+		// Emails. Either single or serialized array
+		// of emails sent to.
+		if(is_array($emails)):
 		
-		$this->addon->email->clear();		
+			$log_data['to']	= serialize($emails);
+
+		else:
+		
+			$log_data['to']	= $emails;
+		
+		endif;
+
+		$this->addon->email->clear();			
 	}
 	
 	// --------------------------------------------------------------------------
 	
 	/**
-	 * Check for the Log Table
+	 * Check for the Log Tables
 	 *
-	 * Checks for our log table and creates it if it
-	 * doesn't exist.
+	 * Checks for our log table and creates it if
+	 * it doesn't exist.
 	 *
 	 * @access	private
 	 * @return	void
@@ -435,7 +453,7 @@ class Formojo
 				'created'			=> array('type' => 'DATETIME'),
 				'subject'			=> array('type' => 'VARCHAR', 'constraint' => '200'),
 				'to'				=> array('type' => 'VARCHAR', 'constraint' => '200'),
-				'debug_code'		=> array('type' => 'LONGTEXT')
+				'debug'		=> array('type' => 'LONGTEXT')
 			);		
 			
 			$this->addon->dbforge->add_field($structure);

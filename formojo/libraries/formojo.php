@@ -120,6 +120,10 @@ class Formojo
 
 			$this->_send_emails( '2' );
 			
+			// Set message
+			
+			$this->addon->session->set_flashdata('success_message', $this->params['success_message']);
+			
 			// Return to the right place
 			redirect( $this->params['return_url'] );
 		
@@ -253,6 +257,20 @@ class Formojo
 			$this->content = str_replace("{recaptcha}", $this->addon->recaptcha->get_html(), $this->content);
 		
 		endif;
+
+		// -------------------------------------
+		// Add Success Message
+		// -------------------------------------
+		
+		if($this->addon->session->flashdata('success_message')):
+			
+			$this->content = str_replace("{success_message}", $this->addon->session->flashdata('success_message'), $this->content);
+		
+		else:
+		
+			$this->content = str_replace("{success_message}", '', $this->content);
+
+		endif;
 	}
 
 	// --------------------------------------------------------------------------
@@ -272,6 +290,8 @@ class Formojo
 		$this->_param('post_error', '</span>');
 
 		$this->_param('form_class', 'site_form');
+
+		$this->_param('success_message', '<p class="success">Form submitted successfully</p>');
 		
 		$this->_param('use_recaptcha', 'no');
 

@@ -33,7 +33,7 @@ class Formojo
     public function __construct()
     {
         $this->addon =& get_instance();
-
+        
 		$this->addon->load->library('simpletags');
 		
 		$this->addon->load->library('form');
@@ -79,7 +79,7 @@ class Formojo
     	
     	// Parse the params so we can use 'em
     	$this->_parse_params();
-    
+    	
 		// -------------------------------------
 		// Gather input data from the tags
 		// -------------------------------------
@@ -96,16 +96,18 @@ class Formojo
 		
 		$this->addon->load->library('form_validation');
 		
-		$this->addon->form_validation->set_rules( $this->inputs );
+		$this->addon->load->library('formojo_validation');
+		
+		$this->addon->formojo_validation->set_rules( $this->inputs );
 
 		// -------------------------------------
 		// Set error delimiters
 		// -------------------------------------
 		
-		$this->addon->form_validation->set_error_delimiters($this->params['pre_error'], $this->params['post_error']);
+		$this->addon->formojo_validation->set_error_delimiters($this->params['pre_error'], $this->params['post_error']);
 		
-		if( $this->addon->form_validation->run() !== FALSE ):
-			
+		if( $this->addon->formojo_validation->run() !== FALSE ):
+		
 			// -------------------------------------
 			// Send Emails
 			// -------------------------------------
@@ -130,7 +132,7 @@ class Formojo
 			$this->_set_errors();
 
 			// -------------------------------------
-			// Set Singular Data
+			// Set Singular Data. reCAPTCHA, etc.
 			// -------------------------------------
 
 			$this->_set_singular_data();
@@ -208,10 +210,19 @@ class Formojo
 		
 			// Remove []
 			$field_slug = str_replace('[]', '', $input['field']);
-		
-			$this->content = str_replace("{".$field_slug."_error}", form_error( $input['field'] ), $this->content);
+			
+			$this->content = str_replace(
+								"{".$field_slug."_error}",
+								$this->addon->formojo_validation->error($input['field'], $this->params['pre_error'], $this->params['post_error']),
+								$this->content);
 		
 		endforeach;
+		
+		// Special reCAPTCHA replace
+		$this->content = str_replace(
+								"{recaptcha_error}", 
+								$this->addon->formojo_validation->error('recaptcha_response_field', $this->params['pre_error'], $this->params['post_error']),
+								$this->content);
 	}
 
 	// --------------------------------------------------------------------------
@@ -299,9 +310,9 @@ class Formojo
 			$this->addon->recaptcha->_rConfig['theme']		= $this->params['theme'];
 			
 			$this->inputs[] = array(
-				      'field' => 'recaptcha',
+				      'field' => 'recaptcha_response_field',
 				      'label' => 'lang:recaptcha_field_name',
-				      'rules' => 'required|callback_check_captcha'
+				      'rules' => 'required|check_captcha'
     		);
 		
 		endif;
@@ -412,7 +423,9 @@ class Formojo
 		$log_data = array(
 			'created' 	=> date('Y-m-d H:i:s'),
 			'subject'	=> $this->params["notify$notify"."_subject"],
-			'debug'		=> $this->addon->email->print_debugger()
+			'debug'		=> $this->addon->email->print_debugger(),
+			'post_data'	=> serialize($_POST)
+			
 		);
 
 		// Emails. Either single or serialized array
@@ -453,7 +466,8 @@ class Formojo
 				'created'			=> array('type' => 'DATETIME'),
 				'subject'			=> array('type' => 'VARCHAR', 'constraint' => '200'),
 				'to'				=> array('type' => 'VARCHAR', 'constraint' => '200'),
-				'debug'		=> array('type' => 'LONGTEXT')
+				'debug'				=> array('type' => 'LONGTEXT'),
+				'post_data'			=> array('type' => 'LONGTEXT')
 			);		
 			
 			$this->addon->dbforge->add_field($structure);

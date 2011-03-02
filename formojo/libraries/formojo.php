@@ -71,7 +71,7 @@ class Formojo
 	 *
 	 * @access	public
 	 * @param	array
-	 * @retuen	string
+	 * @return	string
 	 */
     public function form($tag_data)
     {
@@ -281,7 +281,7 @@ class Formojo
 
 		$this->_param('notify1_layout');
 
-		$this->_param('notify1_subject', $this->addon->site_model->get_setting('site_name') . ' Form Submission');
+		$this->_param('notify1_subject', $this->addon->site_model->get_setting('site_name').' Form Submission');
 
 		$this->_param('notify1_from');
 
@@ -289,7 +289,7 @@ class Formojo
 
 		$this->_param('notify2_layout');
 
-		$this->_param('notify2_subject', $this->addon->site_model->get_setting('site_name') . ' Form Submission');
+		$this->_param('notify2_subject', $this->addon->site_model->get_setting('site_name').' Form Submission');
 
 		$this->_param('notify2_from');
 				
@@ -365,6 +365,22 @@ class Formojo
 			return;
 		
 		endif;
+
+		// -------------------------------------
+		// See if we have any form items
+		// -------------------------------------
+
+		foreach($emails as $key => $piece):
+		
+			// Is this not an email? and it is a form item?
+			if(strpos($piece, '@') === FALSE and $this->addon->input->post($piece)):
+			
+				// Replace it
+				$emails[$key] = $this->addon->input->post($piece);
+			
+			endif;
+		
+		endforeach;
 		
 		// -------------------------------------
 		// Parse Email Layout
@@ -432,8 +448,6 @@ class Formojo
 			
 		);
 		
-		$this->addon->db->insert('formojo_email_log', $log_data);
-
 		// Emails. Either single or serialized array
 		// of emails sent to.
 		if(is_array($emails)):
@@ -445,6 +459,8 @@ class Formojo
 			$log_data['to']	= $emails;
 		
 		endif;
+
+		$this->addon->db->insert('formojo_email_log', $log_data);
 
 		$this->addon->email->clear();			
 	}

@@ -217,7 +217,7 @@ class Form
 		// Set Value
 		// -------------------------------------
 		
-		if( $this->type == 'checkbox' || $this->type == 'radio' ):
+		if( $this->type == 'checkbox' or $this->type == 'radio' ):
 
 			// We should have been provided a value
 			if( isset($value) ):
@@ -236,7 +236,7 @@ class Form
 		else:
 
 			// Set the value for regular inputs
-
+			
 			if( $this->mm->input->post($this->name) ):
 			
 				$this->value = $this->mm->input->post($this->name);

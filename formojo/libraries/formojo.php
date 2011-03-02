@@ -182,7 +182,8 @@ class Formojo
     	$this->inputs[] = array(
     		'field'		=> $this->addon->form->name,
     		'label'		=> $this->addon->form->label,
-    		'rules'		=> $this->addon->form->validation
+    		'rules'		=> $this->addon->form->validation,
+    		'type'		=> $this->addon->form->type
     	);
     	
     	// Return the input we created
@@ -310,9 +311,10 @@ class Formojo
 			$this->addon->recaptcha->_rConfig['theme']		= $this->params['theme'];
 			
 			$this->inputs[] = array(
-				      'field' => 'recaptcha_response_field',
-				      'label' => 'lang:recaptcha_field_name',
-				      'rules' => 'required|check_captcha'
+				      'field'	=> 'recaptcha_response_field',
+				      'label' 	=> 'lang:recaptcha_field_name',
+				      'rules' 	=> 'required|check_captcha',
+				      'type'	=> 'recaptcha'
     		);
 		
 		endif;
@@ -384,7 +386,9 @@ class Formojo
 		
 		$layout = $db_obj->row();
 		
-		$layout->layout_content = $this->addon->parser->parse_string($layout->layout_content, $_POST, TRUE);
+		$form_data = $this->_filter_post_data();
+				
+		$layout->layout_content = $this->addon->parser->parse_string($layout->layout_content, $this->_filter_post_data(), TRUE);
 		
 		// -------------------------------------
 		// Set From
@@ -475,6 +479,99 @@ class Formojo
 			$this->addon->dbforge->create_table('formojo_email_log');
 			
 		endif;
+	}
+
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Filter Post Data
+	 *
+	 * Takes the post data and formats it so that we can use the 
+	 * info in emails and other places.
+	 *
+	 * @access	private
+	 * @return	array
+	 */
+	private function _filter_post_data()
+	{
+		$form_data = $_POST;
+		
+		// Remove unwanted variables
+	
+		$unwanted = array('formojo_form_submitted', 'recaptcha_challenge_field', 'recaptcha_response_field', 'submit_button');
+		
+		foreach($unwanted as $field):
+		
+			if(isset($form_data[$field])):
+			
+				unset($form_data[$field]);
+			
+			endif;
+		
+		endforeach;
+		
+		// Add some fun new variables to use!
+		$form_data['when_submitted']	= date('Y-m-d H:i:s');
+		$form_data['ip_address']		= $this->addon->input->ip_address();
+		
+		$this->addon->load->library('user_agent');
+		
+		$form_data['browser']			= $this->addon->agent->browser().' '.$this->addon->agent->version();
+		$form_data['platform']			= $this->addon->agent->platform();
+		
+		// Go through the inputs, see if there is a post for them.
+		// If there is, check to see if it an array and format for array fun
+		// If there is nothing, check to see if it is an yes/no, otherwise
+		// just set to null
+		
+		$ghosters = array('');
+		
+		foreach($this->inputs as $input):
+		
+			// We do this so it works.
+			$input['field'] = str_replace('[]', '', $input['field']);
+		
+			// We don't care 'bout reCAPTCHA
+			if($input['type'] == 'recaptcha'):
+			
+				continue;
+			
+			endif;
+			
+			if(isset($form_data[$input['field']]) and is_array($form_data[$input['field']])):
+			
+				// Hold and give the array bits an array value of "value"
+				$tmp = $form_data[$input['field']];
+				
+				unset($form_data[$input['field']]);
+				
+				$form_data[$input['field']] = array();
+				
+				foreach($tmp as $item):
+				
+					$form_data[$input['field']][]['value'] = $item;
+				
+				endforeach;
+			
+			elseif(!isset($form_data[$input['field']])):
+			
+				//Yes/No?
+				if($input['type'] == 'yesno_check'):
+				
+					$form_data[$input['field']] = 'No';
+			
+				else:
+				
+					$form_data[$input['field']] = 'No value';
+				
+				endif;
+			
+			endif;
+		
+		endforeach;
+		
+		// Return the form data
+		return $form_data;
 	}
 
 }

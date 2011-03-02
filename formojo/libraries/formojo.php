@@ -428,9 +428,11 @@ class Formojo
 			'created' 	=> date('Y-m-d H:i:s'),
 			'subject'	=> $this->params["notify$notify"."_subject"],
 			'debug'		=> $this->addon->email->print_debugger(),
-			'post_data'	=> serialize($_POST)
+			'form_data'	=> serialize($form_data)
 			
 		);
+		
+		$this->addon->db->insert('formojo_email_log', $log_data);
 
 		// Emails. Either single or serialized array
 		// of emails sent to.
@@ -471,7 +473,7 @@ class Formojo
 				'subject'			=> array('type' => 'VARCHAR', 'constraint' => '200'),
 				'to'				=> array('type' => 'VARCHAR', 'constraint' => '200'),
 				'debug'				=> array('type' => 'LONGTEXT'),
-				'post_data'			=> array('type' => 'LONGTEXT')
+				'form_data'			=> array('type' => 'LONGTEXT')
 			);		
 			
 			$this->addon->dbforge->add_field($structure);

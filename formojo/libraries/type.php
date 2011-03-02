@@ -31,15 +31,15 @@ class Type
 		$addon_dir = APPPATH.'third_party/formojo/';
 	
 		// -------------------------------------
-		// Get Core Input Types
+		// Get Core Input Helpers
 		// -------------------------------------
 		
-		$types_files = directory_map($addon_dir.'input_types/');
+		$types_files = directory_map($addon_dir.'input_helpers/');
 		
-		$this->_load_types( $types_files, $addon_dir.'input_types/' );
+		$this->_load_types( $types_files, $addon_dir.'input_helpers/' );
 	
 		// -------------------------------------
-		// Get Third Party Field Types
+		// Get Third Party Input Helpers
 		// -------------------------------------
 		
 		if( is_dir($addon_dir.'third_party/') ):

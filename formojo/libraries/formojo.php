@@ -147,7 +147,15 @@ class Formojo
 			
 			$hidden = array('formojo_form_submitted' => 'yes');
 			
-			$this->content = form_open( current_url(), '', $hidden ) . $this->content . '</form>';
+			$attr['class'] = $this->params['form_class'];
+			
+			if($this->params['form_id'] != ''):
+			
+				$attr['id'] = $this->params['form_id'];
+			
+			endif;
+			
+			$this->content = form_open( current_url(), $attr, $hidden ) . $this->content . '</form>';
 	
 			// -------------------------------------
 			// Return the Content
@@ -290,6 +298,8 @@ class Formojo
 		$this->_param('post_error', '</span>');
 
 		$this->_param('form_class', 'site_form');
+
+		$this->_param('form_id', '');
 
 		$this->_param('success_message', '<p class="success">Form submitted successfully</p>');
 		

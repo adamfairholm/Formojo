@@ -34,7 +34,7 @@ The buyer may alter, modify, or extend the Software for the buyer's own use, or 
 Technical Support
 =================
 
-Technical support is available primarily through the Green Egg Media website located at http://www.greeneggmedia.com/mojoblocks/support. No representations or guarantees are made regarding the response time for support requests. ADD reserves to right to terminate official technical support at any time and for any reason with or without notice.
+Technical support is available primarily through the Addict Add-on forums located at http://www.addictaddons.com/forums. No representations or guarantees are made regarding the response time for support requests. ADD reserves to right to terminate official technical support at any time and for any reason with or without notice.
 
 Refunds
 =======

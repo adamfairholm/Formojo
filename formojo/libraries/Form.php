@@ -327,13 +327,7 @@ class Form
 	 */	
 	public function hidden_input()
 	{
-		$input_config = array(
-              'name'        => $this->name,
-              'id'          => $this->name,
-              'value'       => $this->value
-            );
-
-		return form_hidden( $input_config );
+		return form_hidden( $this->name, $this->value );
 	}
 
 	// --------------------------------------------------------------------------

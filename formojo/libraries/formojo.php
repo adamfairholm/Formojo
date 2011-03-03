@@ -60,7 +60,7 @@ class Formojo
 		// Make sure we have our email log table
 		// -------------------------------------
 		
-		$this->_check_log_table();
+		$this->_check_log_tables();
     }
 
 	// --------------------------------------------------------------------------
@@ -118,9 +118,13 @@ class Formojo
 			
 			$this->addon->load->library('email');
 			
+			$this->filtered_input = $this->_filter_post_data();
+			
 			$this->_send_emails( '1' );
 
 			$this->_send_emails( '2' );
+			
+			$this->_log_input();
 			
 			// Set message
 			
@@ -433,10 +437,8 @@ class Formojo
 		endif;
 		
 		$layout = $db_obj->row();
-		
-		$form_data = $this->_filter_post_data();
 				
-		$layout->layout_content = $this->addon->parser->parse_string($layout->layout_content, $this->_filter_post_data(), TRUE);
+		$layout->layout_content = $this->addon->parser->parse_string($layout->layout_content, $this->filtered_input, TRUE);
 		
 		// -------------------------------------
 		// Set From
@@ -484,7 +486,7 @@ class Formojo
 			'created' 	=> date('Y-m-d H:i:s'),
 			'subject'	=> $this->params["notify$notify"."_subject"],
 			'debug'		=> $this->addon->email->print_debugger(),
-			'form_data'	=> serialize($form_data)
+			'form_data'	=> serialize($this->filtered_input)
 			
 		);
 		
@@ -516,8 +518,11 @@ class Formojo
 	 * @access	private
 	 * @return	void
 	 */
-	private function _check_log_table()
+	private function _check_log_tables()
 	{
+		$outcome = TRUE;
+	
+		// Check the email log
 		if(!$this->addon->db->table_exists('formojo_email_log')):
 		
 			$this->addon->load->dbforge();
@@ -534,8 +539,33 @@ class Formojo
 			
 			$this->addon->dbforge->add_field($structure);
 						
-			$this->addon->dbforge->create_table('formojo_email_log');
+			$outcome = $this->addon->dbforge->create_table('formojo_email_log');
 			
+		endif;
+
+		// Check the contact log
+		if(!$this->addon->db->table_exists('formojo_form_log')):
+		
+			$this->addon->load->dbforge();
+
+			$this->addon->dbforge->add_field('id');	
+			
+			$structure = array(
+				'created'			=> array('type' => 'DATETIME'),
+				'form_data'			=> array('type' => 'LONGTEXT')
+			);		
+			
+			$this->addon->dbforge->add_field($structure);
+						
+			$outcome = $this->addon->dbforge->create_table('formojo_form_log');
+			
+		endif;
+		
+		// Make sure it worked
+		if(!$outcome):
+		
+			show_error('Failed to create necessary tables');
+		
 		endif;
 	}
 
@@ -554,8 +584,7 @@ class Formojo
 	{
 		$form_data = $_POST;
 		
-		// Remove unwanted variables
-	
+		// Remove unwanted variables	
 		$unwanted = array('formojo_form_submitted', 'recaptcha_challenge_field', 'recaptcha_response_field', 'submit_button');
 		
 		foreach($unwanted as $field):
@@ -630,6 +659,22 @@ class Formojo
 		
 		// Return the form data
 		return $form_data;
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Log the form input
+	 *
+	 * @access	public
+	 * @return	void
+	 */	
+	function _log_input()
+	{
+		$insert_data['created']	= date('Y-m-d H:i:s');
+		$insert_data['form_data'] = serialize($this->filtered_input);
+	
+		$this->addon->db->insert('formojo_form_log', $insert_data);
 	}
 
 }

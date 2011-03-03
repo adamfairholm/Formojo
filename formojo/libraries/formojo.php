@@ -38,7 +38,9 @@ class Formojo
 		
 		$this->addon->load->library('form');
 		
-		$this->addon->load->helper( array('form', 'HTML5') );
+		$this->addon->load->helper('form');
+		
+		include_once(APPPATH.'third_party/formojo/helpers/HTML5_helper.php');
 
 		// -------------------------------------
 		// We are looking for input: items
@@ -107,7 +109,7 @@ class Formojo
 		$this->addon->formojo_validation->set_error_delimiters($this->params['pre_error'], $this->params['post_error']);
 		
 		if( $this->addon->formojo_validation->run() !== FALSE ):
-		
+			
 			// -------------------------------------
 			// Send Emails
 			// -------------------------------------
@@ -128,7 +130,7 @@ class Formojo
 			redirect( $this->params['return_url'] );
 		
 		else:
-
+		
 			// -------------------------------------
 			// Set Errors
 			// -------------------------------------
@@ -453,6 +455,14 @@ class Formojo
 				$this->addon->email->from( $email_pieces[0] );
 			
 			endif;
+			
+		else:
+			
+			// Hmm. No from address. We'll just make a noreply based on the domain.
+			preg_match('@^(?:http://)?([^/]+)@i', current_url(), $matches);
+			preg_match('/[^.]+\.[^.]+$/', $matches[1], $matches);
+
+			$this->addon->email->from('noreply@'.$matches[0]);
 			
 		endif;
 

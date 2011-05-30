@@ -29,7 +29,10 @@ class Form
 	{		
 		$this->type = $type;
 		
-		$content = trim($content);
+		$content = trim( $content );
+		
+		// Save so other inputs can use it.
+		$this->attributes = $attributes;
 
 		$this->parse_attributes( $attributes );
 		
@@ -294,6 +297,14 @@ class Form
               'id'          => $this->name,
               'value'       => $this->value
             );
+
+		// Set rows
+		if(isset($this->attributes['rows']))
+			$input_config['rows'] = $this->attributes['rows'];
+
+		// Set cols
+		if(isset($this->attributes['cols']))
+			$input_config['cols'] = $this->attributes['cols'];
 
 		return form_textarea( $input_config );
 	}

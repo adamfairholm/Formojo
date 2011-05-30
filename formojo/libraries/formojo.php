@@ -91,7 +91,7 @@ class Formojo
 		$parsed = $this->addon->simpletags->parse( $this->tag_contents, array(), array($this, 'parse_input') );
 		
 		$this->content = $parsed['content'];
-		
+
 		// -------------------------------------
 		// Set Validation
 		// -------------------------------------
@@ -126,8 +126,7 @@ class Formojo
 			
 			$this->_log_input();
 			
-			// Set message
-			
+			// Set message			
 			$this->addon->session->set_flashdata('success_message', $this->params['success_message']);
 			
 			// Return to the right place

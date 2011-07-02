@@ -109,7 +109,7 @@ class Formojo
 		$this->addon->formojo_validation->set_error_delimiters($this->params['pre_error'], $this->params['post_error']);
 		
 		if( $this->addon->formojo_validation->run() !== FALSE ):
-			
+		
 			// -------------------------------------
 			// Send Emails
 			// -------------------------------------
@@ -318,7 +318,7 @@ class Formojo
 
 		$this->_param('notify1_subject', $this->addon->site_model->get_setting('site_name').' Form Submission');
 
-		$this->_param('notify1_from');
+		$this->_check_notify_from('notify1_from');
 
 		$this->_param('notify2');
 
@@ -326,7 +326,7 @@ class Formojo
 
 		$this->_param('notify2_subject', $this->addon->site_model->get_setting('site_name').' Form Submission');
 
-		$this->_param('notify2_from');
+		$this->_check_notify_from('notify2_from');
 				
 		// -------------------------------------
 		// Set up ReCaptcha
@@ -351,6 +351,39 @@ class Formojo
 				      'rules' 	=> 'required|check_captcha',
 				      'type'	=> 'recaptcha'
     		);
+		
+		endif;
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Parse notify from value
+	 *
+	 * @access	private
+	 * @param	string - notify indicator string (ie 'notify2_from')
+	 * @return	string
+	 */
+	private function _check_notify_from($notify_string)
+	{
+		if(isset($this->params[$notify_string])):
+		
+			$val = $this->params[$notify_string];
+		
+		else:
+		
+			return;
+		
+		endif;
+	
+		// No scrubs
+		if(trim($val) == '') return;
+	
+		// Check to see if we have no email address and a post input.
+		if(strpos($val, '@') === FALSE and $this->addon->input->post($val)):
+		
+			// Return the actual value from the form
+			$this->params[$notify_string] = $this->addon->input->post($val);
 		
 		endif;
 	}

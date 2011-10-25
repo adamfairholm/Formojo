@@ -1,10 +1,10 @@
-Formojo v1.0
+Formojo v1.0.2
 =====================
-by Addict Add-ons
-www.addictaddons.com
+by Parse19
+parse19.com
 =====================
 
-Welcome to Formojo's README.txt file. Very exciting.
+Welcome to Formojo's README.txt file.
 
 Installation
 ============
@@ -16,27 +16,27 @@ Documentation
 
 You can find all the documentation here:
 
-http://www.addictaddons.com/formojo/docs
+http://parse19.com/formojo/docs
 
 Support
 =======
 
-Something go wrong? We are here for you. Our primary place of support is our support forums which you can find here:
+Something go wrong? We are here for you. Our primary place of support is our support area which you can find here:
 
-http://addictaddons.com/forums
+http://parse19.com/support
 
-We monitor those forums are respond as quickly as possible. You can also search for other problems similar to yours on the forums or talk about anything else related to Formojo or our other add-ons.
+We monitor those forums are respond as quickly as possible. You can also @reply us on Twitter - our handle is parse_19.
 
 Change Log
 ==========
 
 A change log for Formojo is available here:
 
-http://addictaddons.com/formojo/docs/getting-started/change-log
+http://parse19.com/formojo/docs/changelog
 
 License
 =======
 
 A copy of the Formoojo license was included with your download. You can always get a copy of it here if you really like it or something.
 
-http://addictaddons.com/licenses/formojo_license.txt
+http://parse19.com/formojo/docs/license

@@ -11,7 +11,7 @@
  */
 class Formojo
 {
-    public $addon_version = '1.0';
+    public $addon_version = '1.0.3';
     
     private $addon;
     

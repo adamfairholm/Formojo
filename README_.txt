@@ -25,7 +25,7 @@ Something go wrong? We are here for you. Our primary place of support is our sup
 
 http://parse19.com/support
 
-We monitor those forums are respond as quickly as possible. You can also @reply us on Twitter - our handle is parse_19.
+You can also @reply us on Twitter - our handle is parse_19.
 
 Change Log
 ==========

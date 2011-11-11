@@ -3,17 +3,17 @@ This license is a legal agreement between you ("the buyer") and Parse19 ("P19") 
 Permitted Use
 =============
 
-One license grants the buyer the right to perform one installation of the Software. Each additional installation of the Software requires an additional purchased license.
+One license grants the buyer the right to perform one installation of the Software. Each additional installation of the Software requires an additional purchased license. You may install this software in a development environment for development purposes as long as each production install has a purchased license.
 
 Restrictions
 ============
 
 Unless the buyer has been granted prior, written consent from P19, the buyer may not:
 
-    * Reproduce, distribute, or transfer the Software, or portions thereof, to any third party.
-    * Sell, rent, lease, assign, or sublet the Software or portions thereof.
-    * Grant rights for use of the Software to any other person.
-    * Use the Software in violation of any laws of the United States of America of other international laws and regulations.
+* Reproduce, distribute, or transfer the Software, or portions thereof, to any third party.
+* Sell, rent, lease, assign, or sublet the Software or portions thereof.
+* Grant rights for use of the Software to any other person.
+* Use the Software in violation of any laws of the United States of America of other international laws and regulations.
 
 
 Display of Copyright Notices
@@ -59,4 +59,4 @@ The buyer assumes all risk associated with the installation and operation of the
 Choice of Law
 =============
 
-The enforcement, performance, discharge, lack of performance and formation of this License is governed by, and construed and enforced in accordance with, the law of the State of California of the United States of America, regardless of any applicable conflict-of-law rules to the contrary. The law of the State of California shall prevail in any disputes between the parties.
+The enforcement, performance, discharge, lack of performance and formation of this License is governed by, and construed and enforced in accordance with, the law of the State of North Carolina of the United States of America, regardless of any applicable conflict-of-law rules to the contrary. The law of the State of North Carolina shall prevail in any disputes between the parties.

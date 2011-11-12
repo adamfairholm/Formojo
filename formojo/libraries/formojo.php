@@ -440,13 +440,7 @@ class Formojo
 
 		foreach($emails as $key => $piece):
 		
-			// Is this not an email? and it is a form item?
-			if(strpos($piece, '@') === FALSE and $this->addon->input->post($piece)):
-			
-				// Replace it
-				$emails[$key] = $this->addon->input->post($piece);
-			
-			endif;
+			$emails[$key] = $this->_process_email_address($piece);
 		
 		endforeach;
 		
@@ -482,7 +476,7 @@ class Formojo
 			
 			if( isset($email_pieces[1]) ):
 		
-				$this->addon->email->from( $email_pieces[0], $email_pieces[1] );
+				$this->addon->email->from( $this->_process_email_address($email_pieces[0]), $email_pieces[1] );
 			
 			else:
 			
@@ -537,6 +531,27 @@ class Formojo
 		$this->addon->db->insert('formojo_email_log', $log_data);
 
 		$this->addon->email->clear();			
+	}
+
+	// --------------------------------------------------------------------------
+	
+	/**
+	 * Process an email address - if it is not 
+	 * an email address, pull it from post
+	 *
+	 * @access	private
+	 * @param	email
+	 * @return	string
+	 */
+	private function _process_email_address($email)
+	{
+		if(strpos($email, '@') === FALSE and $this->addon->input->post($email)):
+		
+			return $email;
+			
+		endif;
+		
+		return $email;
 	}
 	
 	// --------------------------------------------------------------------------

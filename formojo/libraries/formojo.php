@@ -6,8 +6,8 @@
  * Serious Forms for MojoMotor
  *
  * @package		Formojo
- * @author		Addict Add-ons Dev Team
- * @copyright	Copyright (c) 2011, Addict Add-ons
+ * @author		Parse19
+ * @copyright	Copyright (c) 2011, Parse19
  */
 class Formojo
 {
@@ -493,7 +493,7 @@ class Formojo
 		else:
 			
 			// Hmm. No from address. We'll just make a noreply based on the domain.
-			preg_match('@^(?:http://)?([^/]+)@i', current_url(), $matches);
+			preg_match('@^(?:http://)?([^/]+)@i', $this->addon->site_model->get_setting('site_path'), $matches);
 			preg_match('/[^.]+\.[^.]+$/', $matches[1], $matches);
 
 			$this->addon->email->from('noreply@'.$matches[0]);

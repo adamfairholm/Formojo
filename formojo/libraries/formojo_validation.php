@@ -7,8 +7,8 @@
  * callback method.
  *
  * @package		Formojo
- * @author		Addict Add-ons Dev Team
- * @copyright	Copyright (c) 2011, Addict Add-ons
+ * @author		Parse19
+ * @copyright	Copyright (c) 2011, Parse19
  */
 class Formojo_validation extends CI_Form_validation
 {

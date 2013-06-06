@@ -405,19 +405,19 @@ Input helpers are called exactly like regular inputs, although they may take som
 
 ### Bundled Input Helpers
 
-	{countries}
+	{input:countries}
 
 Generates a drop down list of Countries.
 
-	{email}
+	{input:email}
 
 Generates an HTML5 email input (that degrades to a text input on browsers that don’t use it). Also adds valid_email as validation.
 
-	{timezones}
+	{input:timezones}
 
 Generates a drop down list of timezones.
 
-	{random_id}
+	{input:random_id}
 
 Generates a random, numerical ID that you can use for various purposes.
 

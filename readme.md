@@ -423,5 +423,5 @@ Generates a random, numerical ID that you can use for various purposes.
 
 ## Sample Form
 
-[Sample Form Code](https://gist.github.com/adamfairholm/1311570)
-[Sampe Email Code](https://gist.github.com/adamfairholm/1312729)
+* [Sample Form Code](https://gist.github.com/adamfairholm/1311570)
+* [Sample Email Code](https://gist.github.com/adamfairholm/1312729)

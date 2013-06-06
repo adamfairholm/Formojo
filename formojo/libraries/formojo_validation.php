@@ -7,8 +7,8 @@
  * callback method.
  *
  * @package		Formojo
- * @author		Parse19
- * @copyright	Copyright (c) 2011, Parse19
+ * @author		Adam Fairholm
+ * @copyright	Copyright (c) 2011-2013, Adam Fairholm
  */
 class Formojo_validation extends CI_Form_validation
 {
@@ -17,12 +17,9 @@ class Formojo_validation extends CI_Form_validation
 		$this->CI =& get_instance();
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Check captcha callback
 	 *
-	 * @access	public
 	 * @param	string
 	 * @return	bool
 	 */
@@ -47,5 +44,3 @@ class Formojo_validation extends CI_Form_validation
 	}
 
 }
-
-/* End of file Formojo_validation.php */

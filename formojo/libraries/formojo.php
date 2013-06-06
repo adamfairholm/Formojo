@@ -20,14 +20,11 @@ class Formojo
     
     private $core_input_types = array('text', 'textarea', 'dropdown', 'radio', 'password', 'hidden', 'checkbox', 'yesno_check');
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Formojo Constructor
 	 *
 	 * Load libraries and set config items
 	 *
-	 * @access	public
 	 * @return	void
 	 */
     public function __construct()
@@ -63,15 +60,12 @@ class Formojo
 		$this->_check_log_tables();
     }
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Formojo Form Tag Function
 	 *
 	 * Takes tag parameters and creates form from the
 	 * tag contents
 	 *
-	 * @access	public
 	 * @param	array
 	 * @return	string
 	 */
@@ -170,13 +164,10 @@ class Formojo
 			
 		endif;
     }
-
-	// --------------------------------------------------------------------------
     
     /**
      * Parses an input
      *
-     * @access	public
      * @param	array
      * @return	string
      */
@@ -207,14 +198,11 @@ class Formojo
     	return $input;
     }
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Set Errors
 	 *
 	 * Display errors within the form
 	 *
-	 * @access	private
 	 * @return	void
 	 */
 	private function _set_errors()
@@ -243,14 +231,11 @@ class Formojo
 								$this->content);
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Set Singular Data
 	 *
 	 * Replaces specific {tags} with their data
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	function _set_singular_data()
@@ -286,12 +271,9 @@ class Formojo
 		endif;
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Parse params and set defaults
 	 *
-	 * @access	private
 	 * @return	void
 	 */
 	private function _parse_params()
@@ -355,12 +337,9 @@ class Formojo
 		endif;
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Parse notify from value
 	 *
-	 * @access	private
 	 * @param	string - notify indicator string (ie 'notify2_from')
 	 * @return	string
 	 */
@@ -388,12 +367,9 @@ class Formojo
 		endif;
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Set Param with a default value
 	 *
-	 * @access	private
 	 * @param	string
 	 * @param	[string]
 	 * @return	void
@@ -406,15 +382,12 @@ class Formojo
 		
 		endif;
 	}
-
-	// --------------------------------------------------------------------------
 	
 	/**
 	 * Send Emails
 	 *
 	 * Sends emails for a notify group
 	 *
-	 * @access	private
 	 * @param	string
 	 * @return	void
 	 */
@@ -532,14 +505,11 @@ class Formojo
 
 		$this->addon->email->clear();			
 	}
-
-	// --------------------------------------------------------------------------
 	
 	/**
 	 * Process an email address - if it is not 
 	 * an email address, pull it from post
 	 *
-	 * @access	private
 	 * @param	email
 	 * @return	string
 	 */
@@ -553,16 +523,13 @@ class Formojo
 		
 		return $email;
 	}
-	
-	// --------------------------------------------------------------------------
-	
+		
 	/**
 	 * Check for the Log Tables
 	 *
 	 * Checks for our log table and creates it if
 	 * it doesn't exist.
 	 *
-	 * @access	private
 	 * @return	void
 	 */
 	private function _check_log_tables()
@@ -615,8 +582,6 @@ class Formojo
 		
 		endif;
 	}
-
-	// --------------------------------------------------------------------------
 	
 	/**
 	 * Filter Post Data
@@ -624,7 +589,6 @@ class Formojo
 	 * Takes the post data and formats it so that we can use the 
 	 * info in emails and other places.
 	 *
-	 * @access	private
 	 * @return	array
 	 */
 	private function _filter_post_data()
@@ -708,8 +672,6 @@ class Formojo
 		return $form_data;
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Log the form input
 	 *
@@ -725,5 +687,3 @@ class Formojo
 	}
 
 }
-
-/* End of file formojo.php */

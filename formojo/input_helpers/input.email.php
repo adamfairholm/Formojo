@@ -4,17 +4,15 @@
  * Email Input Type
  *
  * @package		Formojo
- * @author		Parse19
- * @copyright	Copyright (c) 2011, Parse19
+ * @author		Adam Fairholm
+ * @copyright	Copyright (c) 2011-2013, Adam Fairholm
  */
 class Input_email
 {
 	var $label 				= 'E-mail';
 
 	var $validation			= 'valid_email';
-	
-	// --------------------------------------------------------------------------
-	
+		
 	/**
 	 * Output form input
 	 *
@@ -32,5 +30,3 @@ class Input_email
 	}
 
 }
-
-/* End of file input.email.php */

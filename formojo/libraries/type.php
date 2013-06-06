@@ -4,8 +4,8 @@
  * Type Library
  *
  * @package		Formojo
- * @author		Parse19
- * @copyright	Copyright (c) 2011, Parse19
+ * @author		Adam Fairholm
+ * @copyright	Copyright (c) 2011-2013, Adam Fairholm
  */
 class Type
 {
@@ -17,13 +17,10 @@ class Type
 		
 		$this->types = new stdClass;
 	}
-
-	// --------------------------------------------------------------------------
 	
 	/**
 	 * Get the types together as a big object
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function gather_types()
@@ -55,12 +52,9 @@ class Type
 		endif;		
 	}
 	
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Load types
 	 *
-	 * @access	private
 	 * @param	array
 	 * @param	string
 	 * @return	void
@@ -88,5 +82,3 @@ class Type
 	}
 
 }
-
-/* End of file type.php */

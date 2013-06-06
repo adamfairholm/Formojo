@@ -6,15 +6,13 @@
  * Generates a hidden random ID.
  *
  * @package		Formojo
- * @author		Parse19
- * @copyright	Copyright (c) 2011, Parse19
+ * @author		Adam Fairholm
+ * @copyright	Copyright (c) 2011-2013, Adam Fairholm
  */
 class Input_random_id
 {
 	var $label 				= 'Random ID';
-	
-	// --------------------------------------------------------------------------
-	
+		
 	/**
 	 * Output form input
 	 *
@@ -28,5 +26,3 @@ class Input_random_id
 	}
 
 }
-
-/* End of file input.random_id.php */

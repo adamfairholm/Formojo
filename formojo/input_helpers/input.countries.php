@@ -4,21 +4,17 @@
  * Country Input Type
  *
  * @package		Formojo
- * @author		Parse19
- * @copyright	Copyright (c) 2011, Parse19
+ * @author		Adam Fairholm
+ * @copyright	Copyright (c) 2011-2013, Adam Fairholm
  */
 class Input_countries
 {
 	var $label 				= 'Country';
 			
-	// --------------------------------------------------------------------------
-
 	function __construct()
 	{
 		$this->countries = $this->countries();
 	}
-
-	// --------------------------------------------------------------------------
 
 	/**
 	 * Output form input
@@ -32,14 +28,11 @@ class Input_countries
 		return form_dropdown( $name, $this->countries, $value );
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Countries
 	 *
 	 * Returns an array of countries
 	 *
-	 * @access	public
 	 * @return	array
 	 */	
 	function countries()
@@ -290,5 +283,3 @@ class Input_countries
 	}
 
 }
-
-/* End of file input.countries.php */

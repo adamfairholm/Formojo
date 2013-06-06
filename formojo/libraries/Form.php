@@ -4,8 +4,8 @@
  * Form Library
  *
  * @package		Formojo
- * @author		Parse19
- * @copyright	Copyright (c) 2011, Parse19
+ * @author		Adam Fairholm
+ * @copyright	Copyright (c) 2011-2013, Adam Fairholm
  */
 class Form
 {
@@ -14,12 +14,9 @@ class Form
 		$this->mm =& get_instance();
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Create an input
 	 *
-	 * @access	public
 	 * @param	string
 	 * @param	array
 	 * @param	content
@@ -72,8 +69,6 @@ class Form
 		
 		endif;
 	}
-
-	// --------------------------------------------------------------------------
 
 	/**
 	 * Parses Attributes for a field
@@ -263,12 +258,9 @@ class Form
 		endif;
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Create a text input
 	 *
-	 * @access	public
 	 * @return	string
 	 */	
 	public function text_input()
@@ -282,12 +274,9 @@ class Form
 		return form_input( $input_config );
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Create a textarea input
 	 *
-	 * @access	public
 	 * @return	string
 	 */	
 	public function textarea_input()
@@ -309,12 +298,9 @@ class Form
 		return form_textarea( $input_config );
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Create a password input
 	 *
-	 * @access	public
 	 * @return	string
 	 */	
 	public function password_input()
@@ -328,12 +314,9 @@ class Form
 		return form_password( $input_config );
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Create a hidden input
 	 *
-	 * @access	public
 	 * @return	string
 	 */	
 	public function hidden_input()
@@ -341,12 +324,9 @@ class Form
 		return form_hidden( $this->name, $this->value );
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Create a single checkbox input
 	 *
-	 * @access	public
 	 * @return	string
 	 */	
 	public function yesno_check_input()
@@ -369,12 +349,9 @@ class Form
 		return form_checkbox( $this->name, 'yes', $selected );
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Parse multiple inputs for dropdown/checkbox/radio
 	 *
-	 * @access	private
 	 * @param	string
 	 * @return	string
 	 */	
@@ -405,12 +382,9 @@ class Form
 		return $parsed['content'];
 	}
 
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Parse checkbox, radio, and select options
 	 *
-	 * @access	public
 	 * @param	array
 	 * @return	string
 	 */
@@ -479,5 +453,3 @@ class Form
 	}
 
 }
-
-/* End file form.php */

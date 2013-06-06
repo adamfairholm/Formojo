@@ -4,14 +4,12 @@
  * Timezone Input Type
  *
  * @package		Formojo
- * @author		Parse19
- * @copyright	Copyright (c) 2011, Parse19
+ * @author		Adam Fairholm
+ * @copyright	Copyright (c) 2011-2013, Adam Fairholm
  */
 class Input_timezones
 {
 	var $label 				= 'Timezone';
-
-	// --------------------------------------------------------------------------
 	
 	public function __construct()
 	{
@@ -20,8 +18,6 @@ class Input_timezones
 		$this->CI->load->helper('date');
 	}
 	
-	// --------------------------------------------------------------------------
-
 	/**
 	 * Output form input
 	 *
@@ -35,5 +31,3 @@ class Input_timezones
 	}
 
 }
-
-/* End of file input.timezone.php */
